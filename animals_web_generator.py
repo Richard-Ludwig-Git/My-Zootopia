@@ -5,16 +5,29 @@ def load_data(file_path):
     with open(file_path, "r") as handle:
         return json.load(handle)
 
-animals_data = load_data("animals_data.json")
 
+def load_template(file_path):
+    """ Loads a HTML Tamplate """
+    with open(file_path, "r") as gettemp:
+        return gettemp.read()
+
+animals_data = load_data("animals_data.json")
+template = load_template("animals_template.html")
+
+output = ""
 for fox in animals_data:
     try:
-        print(f"Name:",fox["name"])
-        print(f"Diet:", fox["characteristics"]["diet"])
-        print("Location: ", end="")
-        print(", ".join(fox["locations"]))
-        print(f"Type:", fox["characteristics"]["type"])
+        output += f"Name: {fox["name"]}\n"
+        output += f"Diet: {fox["characteristics"]["diet"]}\n"
+        output += "Location: "
+        output += f" {", ".join(fox["locations"])}\n"
+        output += f"Type: {fox["characteristics"]["type"]}\n"
+        output += "\n"
     except KeyError:
-        print()
+        output += "\n"
         continue
-    print()
+
+temp_with_data = template.replace("__REPLACE_ANIMALS_INFO__", output)
+
+with open("animals.html", "w") as makepage:
+    makepage.write(temp_with_data)
