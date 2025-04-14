@@ -17,12 +17,14 @@ template = load_template("animals_template.html")
 output = ""
 for fox in animals_data:
     try:
-        output += f"Name: {fox["name"]}\n"
-        output += f"Diet: {fox["characteristics"]["diet"]}\n"
+        output += '<li class="cards__item">'
+        output += f"Name: {fox["name"]}<br/>\n"
+        output += f"Diet: {fox["characteristics"]["diet"]}<br/>\n"
         output += "Location: "
-        output += f" {", ".join(fox["locations"])}\n"
-        output += f"Type: {fox["characteristics"]["type"]}\n"
+        output += f" {", ".join(fox["locations"])}<br/>\n"
+        output += f"Type: {fox["characteristics"]["type"]}<br/>\n"
         output += "\n"
+        output += "</li>"
     except KeyError:
         output += "\n"
         continue
