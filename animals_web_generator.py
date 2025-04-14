@@ -17,19 +17,19 @@ template = load_template("animals_template.html")
 output = ""
 for fox in animals_data:
     try:
-        output += '<li class="cards__item">'
-        output += f"Name: {fox["name"]}<br/>\n"
-        output += f"Diet: {fox["characteristics"]["diet"]}<br/>\n"
-        output += "Location: "
+        output += "<li class='cards__item'>\n"
+        output += f"<div class='card__title'>{fox["name"]}<br/>\n</div>"
+        output += f"<p class='card__text'>\n <strong>Diet: </strong>{fox["characteristics"]["diet"]}<br/>\n"
+        output += "<strong>Location: </strong>"
         output += f" {", ".join(fox["locations"])}<br/>\n"
-        output += f"Type: {fox["characteristics"]["type"]}<br/>\n"
-        output += "\n"
+        output += f"<strong>Type: </strong>{fox["characteristics"]["type"]}<br/>\n"
+        output += "</p>"
         output += "</li>"
     except KeyError:
         output += "\n"
         continue
 
 temp_with_data = template.replace("__REPLACE_ANIMALS_INFO__", output)
-
+print(temp_with_data)
 with open("animals.html", "w") as makepage:
     makepage.write(temp_with_data)
