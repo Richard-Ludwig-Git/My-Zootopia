@@ -13,25 +13,27 @@ def load_template(file_path):
         return gettemp.read()
 
 
-def serialue_animal(fox):
+def serialize_animal(fox):
+    """Serialization of the animal objects"""
     output = ""
     output += "<li class='cards__item'>\n"
-    output += f"<div class='card__title'>{fox["name"]}<br/>\n</div>"
+    output += f"<div class='card__title'>{fox["name"]}<br/>\n</div><br/>"
     try:
-        output += f"<p class='card__text'>\n <strong>Diet: </strong>{fox["characteristics"]["diet"]}<br/>\n"
+        output += f"<div class='card__text'>\n <ul>\n<li><strong>Diet: </strong>{fox["characteristics"]["diet"]}</li>\n"
     except KeyError:
         pass
     try:
-        output += f"<strong>Prey: </strong>{fox["characteristics"]["prey"]}<br/>\n"
+        output += f"<li><strong>Prey: </strong>{fox["characteristics"]["prey"]}</li>"
     except KeyError:
         pass
-    output += "<strong>Location: </strong>"
-    output += f" {", ".join(fox["locations"])}<br/>\n"
+    output += "<li><strong>Location: </strong>"
+    output += f" {", ".join(fox["locations"])}</li>\n"
     try:
-        output += f"<strong>Type: </strong>{fox["characteristics"]["type"]}<br/>\n"
+        output += f"<li><strong>Type: </strong>{fox["characteristics"]["type"]}</li>\n"
     except KeyError:
         pass
-    output += "</p>"
+    output += "</ul>"
+    output += "</div>"
     output += "</li>"
     return output
 
@@ -41,9 +43,7 @@ template = load_template("animals_template.html")
 
 output = ""
 for fox in animals_data:
-    output += serialue_animal(fox)
-
-
+    output += serialize_animal(fox)
 temp_with_data = template.replace("__REPLACE_ANIMALS_INFO__", output)
 with open("animals.html", "w") as makepage:
     makepage.write(temp_with_data)
