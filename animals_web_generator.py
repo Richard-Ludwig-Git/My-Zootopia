@@ -3,13 +3,13 @@ import json
 
 def load_data(file_path):
     """ Loads a JSON file """
-    with open(file_path, "r") as handle:
+    with open(file_path, encoding="UTF-8", errors="ignore") as handle:
         return json.load(handle)
 
 
 def load_template(file_path):
     """ Loads a HTML Tamplate """
-    with open(file_path, "r") as gettemp:
+    with open(file_path, encoding="UTF-8", errors="ignore") as gettemp:
         return gettemp.read()
 
 
@@ -38,12 +38,21 @@ def serialize_animal(fox):
     return output
 
 
-animals_data = load_data("animals_data.json")
-template = load_template("animals_template.html")
+def combine_data_template():
+    animals_data = load_data("animals_data.json")
+    template = load_template("animals_template.html")
+    output = ""
+    for fox in animals_data:
+        output += serialize_animal(fox)
+    temp_with_data = template.replace("__REPLACE_ANIMALS_INFO__", output)
+    return temp_with_data
 
-output = ""
-for fox in animals_data:
-    output += serialize_animal(fox)
-temp_with_data = template.replace("__REPLACE_ANIMALS_INFO__", output)
-with open("animals.html", "w") as makepage:
-    makepage.write(temp_with_data)
+
+def main():
+    temp_with_data = combine_data_template()
+    with open("animals2.html", "w") as makepage:
+        makepage.write(temp_with_data)
+
+
+if __name__ == "__main__":
+    main()
